@@ -41,4 +41,20 @@ export default class IssuesService {
       return res.status(500).json({ success: false, message: error });
     }
   };
+
+  async updateIssues(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    try {
+      const issue = await db
+        .update(issues)
+        .set(req.body)
+        .where(eq(issues.id, Number(id)))
+        .returning();
+
+      return res.status(200).json({ success: true, data: issue, message: 'Updated Successfully' });
+    } catch (error) {
+      return res.status(500).json({ success: true, message: 'Cannot Update' });
+    }
+  };
 }
