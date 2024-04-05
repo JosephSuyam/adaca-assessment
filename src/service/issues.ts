@@ -18,9 +18,9 @@ export default class IssuesService {
   async getIssue(req: Request, res: Response): Promise<Response> {
     try {
       const { id } = req.params;
-      const data = await db.select().from(issues).where(eq(issues.id, Number(id)));
+      const issue = await db.select().from(issues).where(eq(issues.id, Number(id)));
 
-      return res.status(200).json({ success: true, data });
+      return res.status(200).json({ success: true, data: issue [0] });
     } catch (error) {
       console.log('getIssue error:', error);
       return res.status(500).json({ success: false, message: error });
@@ -33,7 +33,7 @@ export default class IssuesService {
 
       return res.status(201).json({
         success: true,
-        data: issue,
+        data: issue[0],
         message: 'Added Successfully',
       });
     } catch (error) {
@@ -52,7 +52,7 @@ export default class IssuesService {
         .where(eq(issues.id, Number(id)))
         .returning();
 
-      return res.status(200).json({ success: true, data: issue, message: 'Updated Successfully' });
+      return res.status(200).json({ success: true, data: issue[0], message: 'Updated Successfully' });
     } catch (error) {
       return res.status(500).json({ success: true, message: 'Cannot Update' });
     }
