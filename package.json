@@ -6,19 +6,24 @@
   "scripts": {
     "lint": "eslint --ext .js,.ts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-    "dev": "nodemon app.ts"
+    "db:generate": "drizzle-kit generate:sqlite --config=./src/configs/drizzle.config.ts",
+    "db:migrate": "drizzle-kit push:sqlite --config=./src/configs/drizzle.config.ts",
+    "dev": "nodemon ./src/app.ts"
   },
   "author": "Joseph",
   "license": "ISC",
   "dependencies": {
+    "@libsql/client": "^0.6.0",
     "dotenv": "^16.4.1",
-    "express": "^4.18.2"
+    "drizzle-orm": "^0.30.7",
+    "express": "^4.19.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.10",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "@typescript-eslint/parser": "^6.19.1",
+    "drizzle-kit": "^0.20.14",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "nodemon": "^3.0.3",
