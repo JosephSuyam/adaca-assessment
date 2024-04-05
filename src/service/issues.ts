@@ -30,7 +30,7 @@ export default class IssuesService {
   async createIssues(req: Request, res: Response): Promise<Response> {
     try {
       const issue = await db.insert(issues).values(req.body).returning();
-  
+
       return res.status(201).json({
         success: true,
         data: issue,
@@ -55,6 +55,19 @@ export default class IssuesService {
       return res.status(200).json({ success: true, data: issue, message: 'Updated Successfully' });
     } catch (error) {
       return res.status(500).json({ success: true, message: 'Cannot Update' });
+    }
+  };
+
+  async deleteIssue(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    try {
+      await db.delete(issues).where(eq(issues.id, Number(id)));
+
+      return res.status(200).json({ success: true, message: 'Delete Successfully' });
+    } catch (error) {
+      console.log('deleteIssue error:', error);
+      return res.status(500).json({ success: true, message: 'Cannot Delete' });
     }
   };
 }
